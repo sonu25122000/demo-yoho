@@ -135,7 +135,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             fill=""
                           />
                         </svg>
-                  DashBoard
+                  Dashboard
                 </NavLink>
               </li>
               {/* Menu Item DashBoard */}
