@@ -5,21 +5,21 @@ import { ToastContainer, toast } from 'react-toastify';
 import { baseUrl } from '../../utils/baseUrl';
 
 const SignIn: React.FC = () => {
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem('token');
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [credential, setCredential] = useState({});
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setCredential({ ...credential, [name]: value });
   };
-useEffect(()=>{
-  if(token){
-    navigate("/")
-  }
-},[token])
-  const handleLogin = async (e:any) => {
-    e.preventDefault()
+  useEffect(() => {
+    if (token) {
+      navigate('/');
+    }
+  }, [token]);
+  const handleLogin = async (e: any) => {
+    e.preventDefault();
     try {
       const response = await axios.post(
         `${baseUrl}/superAdmin/login`,
@@ -31,20 +31,20 @@ useEffect(()=>{
           },
         },
       );
-      console.log(response.data)
+      console.log(response.data);
       toast.success(response.data.message);
-      if(response.data.token){
-        localStorage.setItem("token",response.data.token)
-        localStorage.setItem("userProfile",JSON.stringify(response.data.data))
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('userProfile', JSON.stringify(response.data.data));
       }
-      navigate("/")
-    } catch (error:any) {
+      navigate('/');
+    } catch (error: any) {
       toast.error(error.response.data.message);
-      console.log(error)
+      console.log(error);
     }
   };
   return (
-    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+    <div className="rounded-sm border h-screen flex justify-center items-center border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="flex flex-wrap items-center">
         <div className="hidden w-full xl:block xl:w-1/2">
           <div className="py-17.5 px-26 text-center">
@@ -122,7 +122,10 @@ useEffect(()=>{
               </div>
 
               <div className="mb-5">
-                <button onClick={handleLogin} className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90">
+                <button
+                  onClick={handleLogin}
+                  className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
+                >
                   Login
                 </button>
               </div>
@@ -130,7 +133,7 @@ useEffect(()=>{
           </div>
         </div>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 };

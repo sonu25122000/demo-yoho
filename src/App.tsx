@@ -4,10 +4,8 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import Loader from './common/Loader';
 import ECommerce from './pages/Dashboard/ECommerce';
 import FormLayout from './pages/Form/FormLayout';
-import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import Tables from './pages/Tables';
-import ViewProfile from './pages/ViewProfile';
 import PrivateRoute from './utils/privateRoute';
 import SignIn from './pages/Authentication/SignIn';
 
@@ -54,23 +52,6 @@ function App() {
         />
         <Route path="/auth/sign-in" element={<SignIn />} />
 
-        <Route
-          path="/profile"
-          element={
-            <PrivateRoute>
-              <Profile />
-            </PrivateRoute>
-          }
-        />
-
-        <Route
-          path="/profile/:id"
-          element={
-            <PrivateRoute>
-              <ViewProfile />
-            </PrivateRoute>
-          }
-        />
         <Route
           path="/recruiter"
           element={
