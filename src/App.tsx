@@ -8,7 +8,6 @@ import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import Tables from './pages/Tables';
 
-
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
@@ -34,6 +33,7 @@ function App() {
             </>
           }
         />
+        <Route path="/a" element={<FormLayout />} />
 
         <Route
           path="/profile"
