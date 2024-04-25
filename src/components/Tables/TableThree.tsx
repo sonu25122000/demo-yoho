@@ -24,11 +24,11 @@ const TableThree = () => {
       setRecruiterList(res.data.data);
       setLoading(false)
       toast.success(res.data.message)
-    } catch (error) {
+    } catch (error:any) {
       console.log(error);
       setLoading(false)
       setError(true)
-      toast.error("Opps! Something Went Wrong.")
+      toast.error(error.response.data.message);
     }
   };
   useEffect(() => {

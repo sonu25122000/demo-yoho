@@ -22,9 +22,9 @@ const FormLayout = () => {
       const data = res.data.data;
       setPayload(data);
       toast.success(res.data.message);
-    } catch (error) {
+    } catch (error:any) {
       console.log(error);
-      toast.error('Opps! Something Went Wrong.');
+      toast.error(error.response.data.message);
     }
   };
   // change password 
@@ -77,14 +77,14 @@ const FormLayout = () => {
           {
             headers: {
               'Content-Type': 'application/json',
-              // Authorization: 'Bearer YOUR_ACCESS_TOKEN',
+              Authorization: `b ${token}`
             },
           },
         );
         toast.success(response.data.message);
       }
-    } catch (error) {
-      toast.error('Opps! Something Went Wrong');
+    } catch (error:any) {
+      toast.error(error.response.data.message);
       console.log(error);
     }
   };
