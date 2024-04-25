@@ -10,13 +10,19 @@ import Loader from '../common/Loader';
 import { baseUrl } from '../utils/baseUrl';
 const ViewProfile = () => {
   const { id } = useParams();
+  const token = localStorage.getItem("token")
   const [profile, setProfile] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Boolean>(false);
   const getRecruiterById = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${baseUrl}/recruiter/${id}`);
+      const res = await axios.get(`${baseUrl}/recruiter/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `b ${token}`,
+        },
+      },);
       const data = res.data.data;
       setProfile(data);
       toast.success(res.data.message);

@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { CiEdit } from "react-icons/ci";
 import { baseUrl } from '../../utils/baseUrl';
 const TableThree = () => {
+  const token = localStorage.getItem("token")
   const [recruiterList, setRecruiterList] = useState<any>([]);
   const [loading,setLoading] = useState<Boolean>(false)
   const [error,setError] = useState<Boolean>(false)
@@ -14,7 +15,12 @@ const TableThree = () => {
     setLoading(true)
   
     try {
-      const res = await axios.get(`${baseUrl}/recruiter`);
+      const res = await axios.get(`${baseUrl}/recruiter`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `b ${token}`,
+        },
+      },);
       setRecruiterList(res.data.data);
       setLoading(false)
       toast.success(res.data.message)

@@ -8,11 +8,17 @@ import { baseUrl } from '../../utils/baseUrl';
 
 const FormLayout = () => {
   const { id } = useParams();
+  const token = localStorage.getItem("token")
   const [payload, setPayload] = useState<any>({});
   const [newPassword,setNewPassword] = useState("")
   const getRecruiterById = async () => {
     try {
-      const res = await axios.get(`${baseUrl}/recruiter/${id}`);
+      const res = await axios.get(`${baseUrl}/recruiter/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `b ${token}`,
+        },
+      },);
       const data = res.data.data;
       setPayload(data);
       toast.success(res.data.message);
