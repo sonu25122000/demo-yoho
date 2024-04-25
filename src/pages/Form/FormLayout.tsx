@@ -9,7 +9,8 @@ const FormLayout = () => {
     const { name, value } = e.target;
     setPayload({ ...payload, [name]: value });
   };
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
     try {
       const response = await axios.post(
         'http://localhost:5000/api/recruiter/register',
