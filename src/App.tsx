@@ -33,7 +33,7 @@ function App() {
             </>
           }
         />
-        <Route path="/a" element={<FormLayout />} />
+        <Route path="/add-edit" element={<FormLayout />} />
 
         <Route
           path="/profile"
