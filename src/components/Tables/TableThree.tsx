@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Loader from '../../common/Loader';
 import { toast } from 'react-toastify';
 import { CiEdit } from "react-icons/ci";
+import { baseUrl } from '../../utils/baseUrl';
 const TableThree = () => {
   const [recruiterList, setRecruiterList] = useState<any>([]);
   const [loading,setLoading] = useState<Boolean>(false)
@@ -13,7 +14,7 @@ const TableThree = () => {
     setLoading(true)
   
     try {
-      const res = await axios.get('http://localhost:5000/api/recruiter');
+      const res = await axios.get(`${baseUrl}/recruiter`);
       setRecruiterList(res.data.data);
       setLoading(false)
       toast.success(res.data.message)

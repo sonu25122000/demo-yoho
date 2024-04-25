@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 import userSix from '../images/user/user-06.png';
 import coverImg from '../images/cover/cover-01.png';
 const Profile = () => {
+  // const userProfile = JSON.parse(localStorage.getItem('userProfile'));
+  const userProfileString = localStorage.getItem('userProfile');
+  const userProfile = userProfileString ? JSON.parse(userProfileString) : null;
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Profile" />
@@ -87,10 +90,10 @@ const Profile = () => {
           </div>
           <div className="mt-4">
             <h3 className="mb-1.5 text-2xl font-semibold text-black dark:text-white">
-              Sonu Kumar
+              {userProfile.firstName} {userProfile.lastName}
             </h3>
-            <p className="font-medium">Software Developer</p>
-
+            <p className="font-medium">{userProfile.email}</p>
+            <p className="font-medium">{userProfile.phoneNumber}</p>
             <div className="mx-auto max-w-180">
               <h4 className="font-semibold text-black dark:text-white">
                 About Me

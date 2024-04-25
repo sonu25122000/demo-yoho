@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Loader from '../common/Loader';
+import { baseUrl } from '../utils/baseUrl';
 const ViewProfile = () => {
   const { id } = useParams();
   const [profile, setProfile] = useState<any>([]);
@@ -15,7 +16,7 @@ const ViewProfile = () => {
   const getRecruiterById = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`http://localhost:5000/api/recruiter/${id}`);
+      const res = await axios.get(`${baseUrl}/recruiter/${id}`);
       const data = res.data.data;
       setProfile(data);
       toast.success(res.data.message);

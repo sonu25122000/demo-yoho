@@ -2,6 +2,8 @@ import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '../layout/DefaultLayout';
 
 const Settings = () => {
+  const userProfileString = localStorage.getItem('userProfile');
+  const userProfile = userProfileString ? JSON.parse(userProfileString) : null;
   return (
     <DefaultLayout>
       <div className="mx-auto max-w-270">
