@@ -7,6 +7,7 @@ import FormLayout from './pages/Form/FormLayout';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import Tables from './pages/Tables';
+import ViewProfile from './pages/ViewProfile';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -40,6 +41,15 @@ function App() {
           element={
             <>
               <Profile />
+            </>
+          }
+        />
+
+        <Route
+          path="/profile/:id"
+          element={
+            <>
+              <ViewProfile />
             </>
           }
         />
