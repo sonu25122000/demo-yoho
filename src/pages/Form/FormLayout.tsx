@@ -10,7 +10,13 @@ const FormLayout = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const token = localStorage.getItem('token');
-  const [payload, setPayload] = useState<any>({});
+  const [payload, setPayload] = useState<any>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    phoneNumber: '',
+  });
   const [newPassword, setNewPassword] = useState('');
   const getRecruiterById = async () => {
     try {
@@ -48,7 +54,7 @@ const FormLayout = () => {
         navigate('/recruiter');
       }, 1000);
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.error);
       console.log(error);
     }
   };
@@ -99,7 +105,7 @@ const FormLayout = () => {
         }, 1000);
       }
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.error);
       console.log(error);
     }
   };
@@ -135,9 +141,14 @@ const FormLayout = () => {
                   name="firstName"
                   value={payload.firstName}
                   type="text"
-                  placeholder="Enter your full name"
+                  placeholder="Enter your first name"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                 />
+                {payload.firstName.length < 3 && (
+                  <span className="text-red-800 text-xs">
+                    firstName is required and minimun length should be 3.
+                  </span>
+                )}
               </div>
 
               <div className="mb-4.5">
@@ -149,9 +160,14 @@ const FormLayout = () => {
                   name="lastName"
                   value={payload.lastName}
                   type="text"
-                  placeholder="Enter your full name"
+                  placeholder="Enter your last name"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                 />
+                {payload.lastName.length < 3 && (
+                  <span className="text-red-800 text-xs">
+                    lastName is required and minimun length should be 3.
+                  </span>
+                )}
               </div>
 
               <div className="mb-4.5">
@@ -167,6 +183,11 @@ const FormLayout = () => {
                   placeholder="Enter your email address"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                 />
+                {payload.email == '' && (
+                  <span className="text-red-800 text-xs">
+                    email is required.
+                  </span>
+                )}
               </div>
               {!id ? (
                 <div className="mb-4.5">
@@ -180,6 +201,11 @@ const FormLayout = () => {
                     placeholder="Enter password"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
+                  {payload.password.length < 6 && (
+                    <span className="text-red-800 text-xs">
+                      password is required and minimun length should be 6.
+                    </span>
+                  )}
                 </div>
               ) : (
                 ''
@@ -193,18 +219,41 @@ const FormLayout = () => {
                   onChange={handleChange}
                   value={payload.phoneNumber}
                   name="phoneNumber"
-                  type="text"
+                  type="number"
                   disabled={id ? true : false}
-                  placeholder="Re-enter password"
+                  placeholder="enter phone number"
                   className={`${
                     id ? 'cursor-not-allowed' : ''
                   } w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary`}
                 />
+                {payload.phoneNumber.length < 10 ||
+                  (payload.phoneNumber.length > 10 && (
+                    <span className="text-red-800 text-xs">
+                      phoneNumber is required and length must be 10 digit.
+                    </span>
+                  ))}
               </div>
 
               <button
+                disabled={
+                  payload.firstName.length < 3 ||
+                  payload.lastName.length < 3 ||
+                  payload.email == '' ||
+                  payload.password.length < 6 ||
+                  payload.phoneNumber.length < 10 ||
+                  payload.phoneNumber.length > 10
+                }
                 onClick={handleSubmit}
-                className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
+                className={`${
+                  payload.firstName.length < 3 ||
+                  payload.lastName.length < 3 ||
+                  payload.email == '' ||
+                  payload.password.length < 6 ||
+                  payload.phoneNumber.length < 10 ||
+                  payload.phoneNumber.length > 10
+                    ? 'bg-graydark cursor-not-allowed'
+                    : 'bg-primary'
+                } flex w-full justify-center rounded  p-3 font-medium text-gray hover:bg-opacity-90 `}
               >
                 {id ? 'Update' : 'Create'}
               </button>
@@ -233,13 +282,23 @@ const FormLayout = () => {
                     placeholder="enter new password"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
+                  {newPassword.length < 6 && (
+                    <span className="text-red-800 text-xs">
+                      Minimun Length 6 char required.
+                    </span>
+                  )}
                 </div>
 
                 <button
+                  disabled={newPassword == ''}
                   onClick={handlePasswordChangeSubmit}
-                  className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
+                  className={` ${
+                    newPassword == '' || newPassword.length < 6
+                      ? 'bg-graydark text-black cursor-not-allowed'
+                      : 'bg-primary text-white'
+                  }flex w-full justify-center rounded  p-3 font-medium text-gray `}
                 >
-                  {id ? 'Change Password' : ''}
+                  Change Password
                 </button>
               </div>
             </form>
