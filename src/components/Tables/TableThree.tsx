@@ -6,11 +6,36 @@ import { toast } from 'react-toastify';
 import { CiEdit } from 'react-icons/ci';
 import { baseUrl } from '../../utils/baseUrl';
 import { DeleteConfirMationModal } from '../modal/modal';
+import { Chip } from '@material-tailwind/react';
 const TableThree = () => {
   const token = localStorage.getItem('token');
   const [recruiterList, setRecruiterList] = useState<any>([]);
   const [loading, setLoading] = useState<Boolean>(false);
   const [error, setError] = useState<Boolean>(false);
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(!open);
+
+  const handleDelete = async (id: string) => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.delete(`${baseUrl}/recruiter/delete/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `b ${token}`,
+        },
+      });
+      toast.success(response.data.message);
+      handleOpen();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
+
   const getRecruiterList = async () => {
     setLoading(true);
 
@@ -31,6 +56,7 @@ const TableThree = () => {
       toast.error(error.response.data.message);
     }
   };
+
   useEffect(() => {
     getRecruiterList();
   }, []);
@@ -91,21 +117,26 @@ const TableThree = () => {
                     {packageItem.phoneNumber}
                   </p>
                 </td>
+
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                  <p
-                    className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
-                      packageItem.isDeactivated
-                        ? 'bg-danger text-danger'
-                        : 'bg-success text-success'
-                    }`}
-                  >
-                    {packageItem.isDeactivated ? 'NO' : 'YES'}
-                  </p>
+                  <div className="w-max">
+                    <Chip
+                      size="sm"
+                      className=""
+                      value={packageItem.isDeactivated ? 'NO' : 'Yes'}
+                      color={packageItem.isDeactivated ? 'red' : 'green'}
+                    />
+                  </div>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
                     <div className="flex items-center space-x-3.5">
-                      <DeleteConfirMationModal RecruiterId={packageItem._id} />
+                      <DeleteConfirMationModal
+                        open={open}
+                        handleOpen={handleOpen}
+                        handleDelete={() => handleDelete(packageItem._id)}
+                        children={'Are You Sure , You Want To Delete.'}
+                      />
                     </div>
                     <Link
                       to={`/add-edit/${packageItem._id}`}

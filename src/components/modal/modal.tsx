@@ -43,7 +43,7 @@ export function DeleteConfirMationModal({ RecruiterId }: any) {
         <MdDeleteOutline size="20" />
       </button>
       <Dialog size={'xs'} open={open} handler={handleOpen}>
-        <DialogBody className="mt-3 flex justify-center items-center font-bold text-2xl text-black dark:text-white xl:pl-11">
+        <DialogBody className="mt-3 flex justify-center items-center font-bold text-2xl text-black xl:pl-11">
           Are You Sure , You Want To Delete.
         </DialogBody>
         <DialogFooter>

@@ -31,7 +31,6 @@ const SignIn: React.FC = () => {
           },
         },
       );
-      console.log(response.data);
       toast.success(response.data.message);
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
 import Logo from '../../images/logo/logo.svg';
+import { RiFolderHistoryLine } from 'react-icons/ri';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -180,6 +181,19 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               </li>
               {/* <!-- Menu Item Recruiter --> */}
 
+              {/* Menu Item History */}
+              <li>
+                <NavLink
+                  to="/history"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes('history') && 'bg-graydark dark:bg-meta-4'
+                  }`}
+                >
+                  <RiFolderHistoryLine size="22" />
+                  History
+                </NavLink>
+              </li>
+              {/* Menu Item History */}
               {/* <!-- Menu Item Settings --> */}
               <li>
                 <NavLink

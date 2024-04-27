@@ -5,11 +5,13 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import { baseUrl } from '../../utils/baseUrl';
+import { Switch } from '@material-tailwind/react';
 
 const FormLayout = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const token = localStorage.getItem('token');
+  const [IsDeactivate, setIsDeactivate] = useState<boolean>(false);
   const [payload, setPayload] = useState<any>({
     firstName: '',
     lastName: '',
@@ -76,7 +78,7 @@ const FormLayout = () => {
       if (id) {
         const response = await axios.patch(
           `${baseUrl}/recruiter/${id}`,
-          payload,
+          { ...payload, isDeactivated: IsDeactivate },
           {
             headers: {
               'Content-Type': 'application/json',
@@ -105,7 +107,7 @@ const FormLayout = () => {
         }, 1000);
       }
     } catch (error: any) {
-      toast.error(error.response.data.error);
+      toast.error(error.response.data.error || error.response.data.message);
       console.log(error);
     }
   };
@@ -211,6 +213,19 @@ const FormLayout = () => {
                 ''
               )}
 
+              {id && (
+                <div className="flex gap-4">
+                  <label className="mb-2.5 block text-black dark:text-white">
+                    De-Activate
+                  </label>
+                  <Switch
+                    onChange={(e) => setIsDeactivate(e.target.checked)}
+                    color="red"
+                    defaultChecked={payload.isDeactivated}
+                  />
+                </div>
+              )}
+
               <div className="mb-5.5">
                 <label className="mb-2.5 block text-black dark:text-white">
                   Phone Number
@@ -222,16 +237,16 @@ const FormLayout = () => {
                   type="number"
                   disabled={id ? true : false}
                   placeholder="enter phone number"
-                  className={`${
-                    id ? 'cursor-not-allowed' : ''
-                  } w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary`}
+                  className={`${id ? 'cursor-not-allowed' : ''} w-full
+                  focus:outline-none
+                    [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
+                  rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary`}
                 />
-                {payload.phoneNumber.length < 10 ||
-                  (payload.phoneNumber.length > 10 && (
-                    <span className="text-red-800 text-xs">
-                      phoneNumber is required and length must be 10 digit.
-                    </span>
-                  ))}
+                {payload.phoneNumber.length < 10 && (
+                  <span className="text-red-800 text-xs">
+                    phoneNumber is required and length must be 10 digit.
+                  </span>
+                )}
               </div>
 
               <button
