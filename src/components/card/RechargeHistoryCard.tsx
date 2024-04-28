@@ -3,6 +3,7 @@ import { FaBitcoin } from 'react-icons/fa';
 import { baseUrl } from '../../utils/baseUrl';
 import { toast } from 'react-toastify';
 import { destructureDate } from './getTime';
+import { GiTwoCoins } from 'react-icons/gi';
 export function RechargeHistoryCard({
   id,
   name,
@@ -62,9 +63,9 @@ export function RechargeHistoryCard({
   return (
     <div className="flex bg-white dark:bg-[#23303f] p-4 gap-7 border border-black  rounded-xl">
       <div className="w-1/3 flex flex-col justify-evenly items-center ">
-        <FaBitcoin size="100px" className="dark:text-white " />
-        <h1 className="text-gray-900 dark:text-white text-xl font-bold">
-          ₹ {coin}
+        <GiTwoCoins size="100px" className="dark:text-white " />
+        <h1 className="text-gray-900 flex justify-center items-center gap-3 dark:text-white text-xl font-bold">
+          <GiTwoCoins size="30" /> {coin}
         </h1>
       </div>
       <div className="w-2/3 flex flex-col justify-center py-3">
