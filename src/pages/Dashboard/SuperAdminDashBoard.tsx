@@ -11,6 +11,7 @@ import PageHeader from '../../components/Breadcrumbs/PageHeader';
 import { RechargeHistoryCard } from '../../components/card/RechargeHistoryCard';
 import { FaBitcoin, FaUser } from 'react-icons/fa';
 import { GiCrownCoin } from 'react-icons/gi';
+import { FaIndianRupeeSign } from 'react-icons/fa6';
 
 const SuperAdminDashBoard: React.FC = () => {
   const token = localStorage.getItem('token');
@@ -88,8 +89,8 @@ const SuperAdminDashBoard: React.FC = () => {
       <div className="grid-cols-1 grid md:grid-cols-3  gap-4">
         <div>
           <DashBoardCard
-            Icon1={<GiCrownCoin size="40" className="dark:text-white" />}
-            icon={<FaBitcoin size="20" />}
+            Icon1={<FaIndianRupeeSign size="40" className="dark:text-white" />}
+            icon={<FaIndianRupeeSign size="20" />}
             buttonContent="Recharge"
             handleOpenModal={openModal}
             heading="Available Coin"

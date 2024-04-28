@@ -290,7 +290,7 @@ const FormLayout = () => {
                   value={payload.YohoId}
                   name="YohoId"
                   type="number"
-                  placeholder="enter commision"
+                  placeholder="enter yoho id"
                   className={` w-full
                   focus:outline-none
                     [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
@@ -303,7 +303,8 @@ const FormLayout = () => {
                   payload.firstName.length < 3 ||
                   payload.lastName.length < 3 ||
                   payload.email == '' ||
-                  payload.password.length < 6 ||
+                  payload.commision == '' ||
+                  // payload.password.length < 6 ||
                   payload.phoneNumber.length < 10 ||
                   payload.phoneNumber.length > 10
                 }
@@ -312,7 +313,8 @@ const FormLayout = () => {
                   payload.firstName.length < 3 ||
                   payload.lastName.length < 3 ||
                   payload.email == '' ||
-                  payload.password.length < 6 ||
+                  // payload.password.length < 6 ||
+                  payload.commision == '' ||
                   payload.phoneNumber.length < 10 ||
                   payload.phoneNumber.length > 10
                     ? 'bg-graydark cursor-not-allowed'

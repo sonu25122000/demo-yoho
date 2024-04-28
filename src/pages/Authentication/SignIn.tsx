@@ -47,10 +47,9 @@ const SignIn: React.FC = () => {
       <div className="flex flex-wrap items-center">
         <div className="hidden w-full xl:block xl:w-1/2">
           <div className="py-17.5 px-26 text-center">
-            <p className="2xl:px-20">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit
-              suspendisse.
-            </p>
+            <h2 className=" text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
+              Welcome to DashBoard
+            </h2>
 
             <span className="mt-15 inline-block">
               <img
