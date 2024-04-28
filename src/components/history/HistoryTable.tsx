@@ -12,18 +12,18 @@ import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 
 const TABLE_HEAD = [
-  'FirstName',
-  'LastName',
+  'YohoID',
+  'Full Name',
   'Phone Number',
   'Email',
   'Coin',
+  'Commision',
+  'Purchase Type',
   'Recharge Status',
 ];
 
 export function HistoryTable() {
-  const [rechargeHistory, setRechargeHistory] = useState<any>([
-    1, 2, 3, 4, 4, 4, 4, 1, 2, 3, 4, 4, 4, 4,
-  ]);
+  const [rechargeHistory, setRechargeHistory] = useState<any>([]);
   const [page, setPage] = useState(1);
   const token = localStorage.getItem('token');
   const itemsPerPage = 5; // Number of items to display per page
@@ -32,27 +32,26 @@ export function HistoryTable() {
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage, rechargeHistory.length);
 
-  //   function to get recharge history
+  // function to get recharge history
+  const getRechargeHistory = async () => {
+    try {
+      const res = await axios.get(`${baseUrl}/history`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `b ${token}`,
+        },
+      });
+      setRechargeHistory(res.data.data);
+      toast.success(res.data.message);
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.response.data.message || error.response.data.error);
+    }
+  };
 
-  //   const getRechargeHistory = async () => {
-  //     try {
-  //       const res = await axios.get(`${baseUrl}/recruiter`, {
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           Authorization: `b ${token}`,
-  //         },
-  //       });
-  //       setRechargeHistory(res.data.data);
-  //       toast.success(res.data.message);
-  //     } catch (error: any) {
-  //       console.log(error);
-  //       toast.error(error.response.data.message || error.response.data.error);
-  //     }
-  //   };
-
-  //   useEffect(() => {
-  //     getRechargeHistory();
-  //   }, []);
+  useEffect(() => {
+    getRechargeHistory();
+  }, []);
 
   return (
     <Card className="h-full w-full dark:bg-[#23303f] md:px-5">
@@ -77,24 +76,51 @@ export function HistoryTable() {
                 return (
                   <tr key={index} className="dark:text-white text-black">
                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                      <p className="text-black dark:text-white">Sonu</p>
+                      <p className="text-black dark:text-white">
+                        {item.YohoId || '--'}
+                      </p>
                     </td>
-
                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                      <p className="text-black dark:text-white">Kumar</p>
-                    </td>
-
-                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                      <p className="text-black dark:text-white">6202945018</p>
+                      <p className="text-black dark:text-white">
+                        {`${item.recruiterID.firstName}${' '}${
+                          item.recruiterID.lastName
+                        }`}
+                      </p>
                     </td>
 
                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                       <p className="text-black dark:text-white">
-                        skg74@gmail.com
+                        {item.recruiterID.phoneNumber}
+                      </p>
+                    </td>
+
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                      <p className="text-black dark:text-white">
+                        {item.recruiterID.email}
                       </p>
                     </td>
                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                      <p className="text-black dark:text-white">$ 300</p>
+                      <p className="text-black dark:text-white">
+                        $ {item.coin}
+                      </p>
+                    </td>
+
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                      <p className="text-black dark:text-white">
+                        {item.recruiterID.commision} %
+                      </p>
+                    </td>
+
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                      <div className="w-max">
+                        <Chip
+                          size="sm"
+                          // purchaseType
+                          className=""
+                          value={item.purchaseType}
+                          color={'blue'}
+                        />
+                      </div>
                     </td>
 
                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -102,8 +128,14 @@ export function HistoryTable() {
                         <Chip
                           size="sm"
                           className=""
-                          value={index % 2 == 0 ? 'approved' : 'rejected'}
-                          color={index % 2 == 0 ? 'green' : 'red'}
+                          value={item.status}
+                          color={
+                            item.status == 'approved'
+                              ? 'green'
+                              : item.status == 'pending'
+                              ? 'yellow'
+                              : 'red'
+                          }
                         />
                       </div>
                     </td>

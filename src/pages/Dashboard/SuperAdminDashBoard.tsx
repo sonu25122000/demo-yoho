@@ -18,7 +18,7 @@ const SuperAdminDashBoard: React.FC = () => {
   const userProfile = userProfileString ? JSON.parse(userProfileString) : null;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [superAdminProfile, setSuperAdminProfile] = useState<any>({});
-  const [requestedRecharge, setRequestedRecharge] = useState<any>([1, 2, 3]);
+  const [requestedRecharge, setRequestedRecharge] = useState<any>([]);
   const [recruiterList, setRecruiterList] = useState<any>([]);
   const openModal = () => {
     setIsModalOpen(true);
@@ -44,7 +44,7 @@ const SuperAdminDashBoard: React.FC = () => {
     }
   };
 
-  // het recrruiter details
+  // get recrruiter details
   const getRecruiterList = async () => {
     try {
       const res = await axios.get(`${baseUrl}/recruiter`, {
@@ -59,25 +59,28 @@ const SuperAdminDashBoard: React.FC = () => {
     }
   };
 
-  // const getRequestedCoin = async () => {
-  //   try {
-  //     const res = await axios.get(`${baseUrl}/superAdmin/${userProfile._id}`, {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: `b ${token}`,
-  //       },
-  //     });
-  //     setRequestedRecharge(res.data.data);
-  //   } catch (error: any) {
-  //     console.log(error);
-  //     toast.error(error.response.data.message || error.response.data.error);
-  //   }
-  // };
+  //  get pending recharge history
+
+  const getPendingRecharge = async () => {
+    try {
+      const res = await axios.get(`${baseUrl}/history?status=pending`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `b ${token}`,
+        },
+      });
+      setRequestedRecharge(res.data.data);
+      console.log(res.data.data);
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.response.data.message || error.response.data.error);
+    }
+  };
 
   useEffect(() => {
     getSuperAdminProfileDetails();
-    // getRequestedCoin();
     getRecruiterList();
+    getPendingRecharge();
   }, []);
   return (
     <DefaultLayout>
@@ -124,18 +127,6 @@ const SuperAdminDashBoard: React.FC = () => {
           Icon1={<FaUser size="40" className="dark:text-white" />}
           icon={<FaUser size="20" />}
         />
-        <DashBoardCard
-          coin="300"
-          heading="Monthly Earning"
-          Icon1={<FaUser size="40" className="dark:text-white" />}
-          icon={<FaUser size="20" />}
-        />
-        <DashBoardCard
-          coin="300"
-          heading="Today's Earning"
-          Icon1={<FaUser size="40" className="dark:text-white" />}
-          icon={<FaUser size="20" />}
-        />
       </div>
 
       <PageHeader pageName="Recharge Requested" />
@@ -144,9 +135,16 @@ const SuperAdminDashBoard: React.FC = () => {
           ? requestedRecharge.map((item: any) => {
               return (
                 <RechargeHistoryCard
-                  name={item.name}
+                  name={`${item.recruiterID.firstName}${' '}${
+                    item.recruiterID.lastName
+                  }`}
+                  recruiterID={item.recruiterID._id}
+                  adminID={item.adminID}
+                  phoneNumber={item.recruiterID.phoneNumber}
+                  YohoId={item.YohoId}
                   coin={item.coin}
-                  id={item}
+                  id={item._id}
+                  purchaseDate={item.createdAt}
                 />
               );
             })

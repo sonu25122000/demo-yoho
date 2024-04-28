@@ -12,12 +12,14 @@ const FormLayout = () => {
   const { id } = useParams();
   const token = localStorage.getItem('token');
   const [IsDeactivate, setIsDeactivate] = useState<boolean>(false);
+  const [YohoID, setYohoID] = useState('');
   const [payload, setPayload] = useState<any>({
     firstName: '',
     lastName: '',
     email: '',
     password: '',
     phoneNumber: '',
+    commision: '',
   });
   const [newPassword, setNewPassword] = useState('');
   const getRecruiterById = async () => {
@@ -78,7 +80,7 @@ const FormLayout = () => {
       if (id) {
         const response = await axios.patch(
           `${baseUrl}/recruiter/${id}`,
-          { ...payload, isDeactivated: IsDeactivate },
+          { ...payload, active: IsDeactivate },
           {
             headers: {
               'Content-Type': 'application/json',
@@ -91,9 +93,16 @@ const FormLayout = () => {
           navigate('/recruiter');
         }, 1000);
       } else {
+        let newPayload;
+        if (YohoID) {
+          newPayload = { ...payload, YohoId: YohoID };
+        } else {
+          newPayload = payload;
+        }
+
         const response = await axios.post(
           `${baseUrl}/recruiter/register`,
-          payload,
+          newPayload,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -216,12 +225,12 @@ const FormLayout = () => {
               {id && (
                 <div className="flex gap-4">
                   <label className="mb-2.5 block text-black dark:text-white">
-                    De-Activate
+                    Active
                   </label>
                   <Switch
                     onChange={(e) => setIsDeactivate(e.target.checked)}
                     color="red"
-                    defaultChecked={payload.isDeactivated}
+                    defaultChecked={payload.active}
                   />
                 </div>
               )}
@@ -247,6 +256,46 @@ const FormLayout = () => {
                     phoneNumber is required and length must be 10 digit.
                   </span>
                 )}
+              </div>
+
+              <div className="mb-5.5">
+                <label className="mb-2.5 block text-black dark:text-white">
+                  Commision
+                </label>
+                <input
+                  onChange={handleChange}
+                  value={payload.commision}
+                  name="commision"
+                  type="number"
+                  placeholder="enter commision"
+                  className={` w-full
+                  focus:outline-none
+                    [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
+                  rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary`}
+                />
+                {payload.commision == '' && (
+                  <span className="text-red-800 text-xs">
+                    commision is required.
+                  </span>
+                )}
+              </div>
+
+              {/* YohoId */}
+              <div className="mb-5.5">
+                <label className="mb-2.5 block text-black dark:text-white">
+                  YohoID
+                </label>
+                <input
+                  onChange={(e) => setYohoID(e.target.value)}
+                  value={payload.YohoId}
+                  name="YohoId"
+                  type="number"
+                  placeholder="enter commision"
+                  className={` w-full
+                  focus:outline-none
+                    [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
+                  rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary`}
+                />
               </div>
 
               <button

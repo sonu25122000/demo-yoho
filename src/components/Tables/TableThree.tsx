@@ -25,13 +25,15 @@ const TableThree = () => {
           Authorization: `b ${token}`,
         },
       });
-      toast.success(response.data.message);
       handleOpen();
+      toast.success(response.data.message);
       setTimeout(() => {
         window.location.reload();
       }, 1000);
     } catch (error: any) {
       console.log(error);
+      handleOpen();
+
       toast.error(error.response.data.message);
     }
   };
@@ -74,21 +76,26 @@ const TableThree = () => {
         <table className="w-full table-auto">
           <thead>
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
+              <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                YohoID
+              </th>
               <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
-                First Name
+                Full Name
               </th>
-              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                Last Name
-              </th>
-              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                Email
-              </th>
+
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                 Phone Number
               </th>
               <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                IsActive
+                Active
               </th>
+              <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                Coin
+              </th>
+              <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                Commision
+              </th>
+
               <th className="py-4 px-4 font-medium text-black dark:text-white">
                 Actions
               </th>
@@ -97,21 +104,17 @@ const TableThree = () => {
           <tbody>
             {recruiterList.map((packageItem: any, key: number) => (
               <tr key={key}>
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <p className="text-black dark:text-white">
+                    {packageItem.YohoId || '--'}
+                  </p>
+                </td>
                 <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                   <h5 className="font-medium text-black dark:text-white">
-                    {packageItem.firstName}
+                    {packageItem.firstName} {packageItem.lastName}
                   </h5>
                 </td>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {packageItem.lastName}
-                  </p>
-                </td>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {packageItem.email}
-                  </p>
-                </td>
+
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
                     {packageItem.phoneNumber}
@@ -123,11 +126,22 @@ const TableThree = () => {
                     <Chip
                       size="sm"
                       className=""
-                      value={packageItem.isDeactivated ? 'NO' : 'Yes'}
-                      color={packageItem.isDeactivated ? 'red' : 'green'}
+                      value={packageItem.active ? 'Yes' : 'No'}
+                      color={packageItem.active ? 'green' : 'red'}
                     />
                   </div>
                 </td>
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <p className="text-black dark:text-white">
+                    {packageItem.coin}
+                  </p>
+                </td>
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <p className="text-black dark:text-white">
+                    {packageItem.commision}
+                  </p>
+                </td>
+
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
                     <div className="flex items-center space-x-3.5">
