@@ -13,6 +13,7 @@ import { FaBitcoin, FaUser } from 'react-icons/fa';
 import { GiCrownCoin, GiTwoCoins } from 'react-icons/gi';
 import { FaIndianRupeeSign } from 'react-icons/fa6';
 import { RechargeHistoryCardForSell } from '../../components/card/rechargeHistoryCardForSell';
+import { WithDrawCard } from '../../components/card/withdrawCommissionCard';
 
 const SuperAdminDashBoard: React.FC = () => {
   const token = localStorage.getItem('token');
@@ -24,6 +25,7 @@ const SuperAdminDashBoard: React.FC = () => {
   console.log(requestedRecharge);
   const [requestedRechargeSellType, setRequestedRechargeSellType] =
     useState<any>([]);
+  const [withDraw, setwithDraw] = useState<any>([]);
   const [recruiterList, setRecruiterList] = useState<any>([]);
   const [todaysSell, setTodaysSell] = useState<any>(0);
   const [monthlySell, setMonthlySell] = useState<any>(0);
@@ -81,6 +83,10 @@ const SuperAdminDashBoard: React.FC = () => {
       const sellTypeRecharge = res.data.data.filter(
         (el: any) => el.purchaseType == 'sell',
       );
+      const withdraw = res.data.data.filter(
+        (el: any) => el.purchaseType == 'withdraw',
+      );
+      setwithDraw(withdraw);
       setRequestedRecharge(buyTypeRecharge);
       setRequestedRechargeSellType(sellTypeRecharge);
       console.log(res.data.data);
@@ -214,6 +220,29 @@ const SuperAdminDashBoard: React.FC = () => {
                   adminID={item.adminID}
                   phoneNumber={item.recruiterID.phoneNumber}
                   YohoId={item.YohoId}
+                  coin={item.coin}
+                  id={item._id}
+                  amount={item.amount}
+                  purchaseDate={item.createdAt}
+                />
+              );
+            })
+          : 'abc'}
+      </div>
+
+      <PageHeader pageName="WithDraw Requested By Recruiter" />
+      <div className="grid-cols-1 grid md:grid-cols-3 gap-4">
+        {withDraw
+          ? withDraw.map((item: any) => {
+              return (
+                <WithDrawCard
+                  key={item}
+                  name={`${item.recruiterID.firstName}${' '}${
+                    item.recruiterID.lastName
+                  }`}
+                  recruiterID={item.recruiterID._id}
+                  adminID={item.adminID}
+                  phoneNumber={item.recruiterID.phoneNumber}
                   coin={item.coin}
                   id={item._id}
                   amount={item.amount}

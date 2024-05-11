@@ -125,7 +125,13 @@ export function HistoryTable() {
                           // purchaseType
                           className=""
                           value={item.purchaseType}
-                          color={item.purchaseType == 'buy' ? 'blue' : 'red'}
+                          color={
+                            item.purchaseType == 'buy'
+                              ? 'blue'
+                              : item.purchaseType == 'withdraw'
+                              ? 'green'
+                              : 'red'
+                          }
                         />
                       </div>
                     </td>
