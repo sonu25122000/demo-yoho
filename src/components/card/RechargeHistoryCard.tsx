@@ -13,6 +13,7 @@ export function RechargeHistoryCard({
   purchaseDate,
   adminID,
   recruiterID,
+  amount,
 }: any) {
   const token = localStorage.getItem('token');
   const handleApprove = async () => {
@@ -72,10 +73,10 @@ export function RechargeHistoryCard({
         <h5 className="mb-2 uppercase text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
           {name}
         </h5>
-
-        <h5 className="mb-2 text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-          YOHOID : {YohoId}
+        <h5 className="mb-2 uppercase text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+          Amount: {amount ? amount.toFixed(2) : 0}
         </h5>
+
         <h5 className="mb-2 text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
           {time.day + '-' + time.month + '-' + time.year}
         </h5>

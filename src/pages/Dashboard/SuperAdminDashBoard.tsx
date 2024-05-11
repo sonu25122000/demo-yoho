@@ -21,9 +21,12 @@ const SuperAdminDashBoard: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [superAdminProfile, setSuperAdminProfile] = useState<any>({});
   const [requestedRecharge, setRequestedRecharge] = useState<any>([]);
+  console.log(requestedRecharge);
   const [requestedRechargeSellType, setRequestedRechargeSellType] =
     useState<any>([]);
   const [recruiterList, setRecruiterList] = useState<any>([]);
+  const [todaysSell, setTodaysSell] = useState<any>(0);
+  const [monthlySell, setMonthlySell] = useState<any>(0);
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -64,7 +67,6 @@ const SuperAdminDashBoard: React.FC = () => {
   };
 
   //  get pending recharge history
-
   const getPendingRecharge = async () => {
     try {
       const res = await axios.get(`${baseUrl}/history?status=pending`, {
@@ -88,10 +90,46 @@ const SuperAdminDashBoard: React.FC = () => {
     }
   };
 
+  // get today's sell
+  const getTodaysSell = async () => {
+    try {
+      const res = await axios.get(`${baseUrl}/history/today-sell`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `b ${token}`,
+        },
+      });
+      setTodaysSell(res.data.data);
+      console.log(res.data.data);
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.response.data.message || error.response.data.error);
+    }
+  };
+
+  // get monthly sell
+  const getMonthlysSell = async () => {
+    try {
+      const res = await axios.get(`${baseUrl}/history/monthly-sell`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `b ${token}`,
+        },
+      });
+      setMonthlySell(res.data.data);
+      console.log(res.data.data);
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.response.data.message || error.response.data.error);
+    }
+  };
+
   useEffect(() => {
     getSuperAdminProfileDetails();
     getRecruiterList();
     getPendingRecharge();
+    getTodaysSell();
+    getMonthlysSell();
   }, []);
   return (
     <DefaultLayout>
@@ -127,16 +165,16 @@ const SuperAdminDashBoard: React.FC = () => {
         />
 
         <DashBoardCard
-          coin="300"
+          coin={todaysSell ? todaysSell : 'No sell in Today'}
           heading="Today's Sell"
-          Icon1={<FaUser size="40" className="dark:text-white" />}
-          icon={<FaUser size="20" />}
+          Icon1={<GiTwoCoins size="40" className="dark:text-white" />}
+          icon={<GiTwoCoins size="20" />}
         />
         <DashBoardCard
-          coin="300"
+          coin={monthlySell ? monthlySell : 'no coin sell in this month'}
           heading="Monthly Sells"
-          Icon1={<FaUser size="40" className="dark:text-white" />}
-          icon={<FaUser size="20" />}
+          Icon1={<GiTwoCoins size="40" className="dark:text-white" />}
+          icon={<GiTwoCoins size="20" />}
         />
       </div>
 
@@ -156,6 +194,7 @@ const SuperAdminDashBoard: React.FC = () => {
                   YohoId={item.YohoId}
                   coin={item.coin}
                   id={item._id}
+                  amount={item.amount}
                   purchaseDate={item.createdAt}
                 />
               );
@@ -177,6 +216,7 @@ const SuperAdminDashBoard: React.FC = () => {
                   YohoId={item.YohoId}
                   coin={item.coin}
                   id={item._id}
+                  amount={item.amount}
                   purchaseDate={item.createdAt}
                 />
               );

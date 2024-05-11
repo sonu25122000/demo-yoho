@@ -18,6 +18,7 @@ const TABLE_HEAD = [
   'Email',
   'Coin',
   'Commision',
+  'Amount',
   'Purchase Type',
   'Recharge Status',
 ];
@@ -108,6 +109,12 @@ export function HistoryTable() {
                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                       <p className="text-black dark:text-white">
                         {item.recruiterID.commision} %
+                      </p>
+                    </td>
+
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                      <p className="text-black dark:text-white">
+                        {(item.amount && item?.amount.toFixed(2)) || 0}
                       </p>
                     </td>
 

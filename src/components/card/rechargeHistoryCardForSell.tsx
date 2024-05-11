@@ -11,15 +11,15 @@ export function RechargeHistoryCardForSell({
   YohoId,
   coin,
   purchaseDate,
-  adminID,
   recruiterID,
+  amount,
 }: any) {
   const token = localStorage.getItem('token');
   const handleApprove = async () => {
     try {
       const response = await axios.patch(
-        `${baseUrl}/history/approve/${id}`,
-        { adminID, coin, recruiterID },
+        `${baseUrl}/history/approveSellRecharge/${id}`,
+        { coin, recruiterID },
         {
           headers: {
             'Content-Type': 'application/json',
@@ -72,6 +72,9 @@ export function RechargeHistoryCardForSell({
         <h5 className="mb-2 uppercase text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
           {name}
         </h5>
+        <h5 className="mb-2 uppercase text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+          Amount: {(amount && amount.toFixed(2)) || 0}
+        </h5>
 
         <h5 className="mb-2 text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
           YOHOID : {YohoId}
@@ -85,7 +88,7 @@ export function RechargeHistoryCardForSell({
         <div className=""></div>
         <div className="flex gap-3 mt-3 justify-between">
           <button
-            // onClick={handleApprove}
+            onClick={handleApprove}
             type="button"
             className="text-gray-900 bg-white border border-black px-3 focus:outline-none hover:bg-gray-100  focus:ring-gray-100 font-medium rounded-full text-sm py-2.5 me-2 mb-2 dark:bg-black-800 dark:text-black dark:border-black dark:hover:bg-black-700 dark:hover:border-black "
           >
