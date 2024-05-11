@@ -12,6 +12,7 @@ import { RechargeHistoryCard } from '../../components/card/RechargeHistoryCard';
 import { FaBitcoin, FaUser } from 'react-icons/fa';
 import { GiCrownCoin, GiTwoCoins } from 'react-icons/gi';
 import { FaIndianRupeeSign } from 'react-icons/fa6';
+import { RechargeHistoryCardForSell } from '../../components/card/rechargeHistoryCardForSell';
 
 const SuperAdminDashBoard: React.FC = () => {
   const token = localStorage.getItem('token');
@@ -20,6 +21,8 @@ const SuperAdminDashBoard: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [superAdminProfile, setSuperAdminProfile] = useState<any>({});
   const [requestedRecharge, setRequestedRecharge] = useState<any>([]);
+  const [requestedRechargeSellType, setRequestedRechargeSellType] =
+    useState<any>([]);
   const [recruiterList, setRecruiterList] = useState<any>([]);
   const openModal = () => {
     setIsModalOpen(true);
@@ -70,7 +73,14 @@ const SuperAdminDashBoard: React.FC = () => {
           Authorization: `b ${token}`,
         },
       });
-      setRequestedRecharge(res.data.data);
+      const buyTypeRecharge = res.data.data.filter(
+        (el: any) => el.purchaseType == 'buy',
+      );
+      const sellTypeRecharge = res.data.data.filter(
+        (el: any) => el.purchaseType == 'sell',
+      );
+      setRequestedRecharge(buyTypeRecharge);
+      setRequestedRechargeSellType(sellTypeRecharge);
       console.log(res.data.data);
     } catch (error: any) {
       console.log(error);
@@ -130,15 +140,37 @@ const SuperAdminDashBoard: React.FC = () => {
         />
       </div>
 
-      <PageHeader pageName="Recharge Requested" />
+      <PageHeader pageName="Recharge Requested for buy" />
       <div className="grid-cols-1 grid md:grid-cols-3 gap-4">
         {requestedRecharge
           ? requestedRecharge.map((item: any) => {
               return (
                 <RechargeHistoryCard
+                  key={item}
                   name={`${item.recruiterID.firstName}${' '}${
                     item.recruiterID.lastName
                   }`}
+                  recruiterID={item.recruiterID._id}
+                  adminID={item.adminID}
+                  phoneNumber={item.recruiterID.phoneNumber}
+                  YohoId={item.YohoId}
+                  coin={item.coin}
+                  id={item._id}
+                  purchaseDate={item.createdAt}
+                />
+              );
+            })
+          : 'abc'}
+      </div>
+
+      <PageHeader pageName="Recharge Requested for sell" />
+      <div className="grid-cols-1 grid md:grid-cols-3 gap-4">
+        {requestedRechargeSellType
+          ? requestedRechargeSellType.map((item: any) => {
+              return (
+                <RechargeHistoryCardForSell
+                  key={item}
+                  name={item.fullName}
                   recruiterID={item.recruiterID._id}
                   adminID={item.adminID}
                   phoneNumber={item.recruiterID.phoneNumber}
