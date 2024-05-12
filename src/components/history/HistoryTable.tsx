@@ -101,9 +101,7 @@ export function HistoryTable() {
                       </p>
                     </td>
                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                      <p className="text-black dark:text-white">
-                        ₹ {item.coin}
-                      </p>
+                      <p className="text-black dark:text-white">{item.coin}</p>
                     </td>
 
                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -114,7 +112,7 @@ export function HistoryTable() {
 
                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                       <p className="text-black dark:text-white">
-                        {(item.amount && item?.amount.toFixed(2)) || 0}
+                        ₹ {(item.amount && item?.amount.toFixed(2)) || 0}
                       </p>
                     </td>
 

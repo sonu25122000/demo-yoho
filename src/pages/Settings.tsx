@@ -52,7 +52,7 @@ const Settings = () => {
                         name="lastName"
                         id="phoneNumber"
                         onChange={handleChange}
-                        placeholder="last name"
+                        placeholder="Last name"
                         value={payload.lastName}
                       />
                     </div>
@@ -71,7 +71,7 @@ const Settings = () => {
                       type="text"
                       name="phoneNumber"
                       id="phoneNumber"
-                      placeholder="+990 3343 7865"
+                      placeholder="9933437865"
                       value={payload.phoneNumber}
                     />
                   </div>

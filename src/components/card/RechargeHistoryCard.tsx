@@ -8,7 +8,6 @@ export function RechargeHistoryCard({
   id,
   name,
   phoneNumber,
-  YohoId,
   coin,
   purchaseDate,
   adminID,

@@ -238,7 +238,7 @@ const FormLayout = () => {
                   name="phoneNumber"
                   type="number"
                   disabled={id ? true : false}
-                  placeholder="enter phone number"
+                  placeholder="Enter phone number"
                   className={`${id ? 'cursor-not-allowed' : ''} w-full
                   focus:outline-none
                     [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
@@ -260,7 +260,7 @@ const FormLayout = () => {
                   value={payload.commision}
                   name="commision"
                   type="number"
-                  placeholder="enter commision"
+                  placeholder="Enter commision"
                   className={` w-full
                   focus:outline-none
                     [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none

@@ -12,6 +12,7 @@ import { RechargeHistoryCard } from '../../components/card/RechargeHistoryCard';
 import { FaBitcoin, FaUser } from 'react-icons/fa';
 import { GiCrownCoin, GiTwoCoins } from 'react-icons/gi';
 import { FaIndianRupeeSign } from 'react-icons/fa6';
+
 import { RechargeHistoryCardForSell } from '../../components/card/rechargeHistoryCardForSell';
 import { WithDrawCard } from '../../components/card/withdrawCommissionCard';
 
@@ -109,7 +110,6 @@ const SuperAdminDashBoard: React.FC = () => {
       console.log(res.data.data);
     } catch (error: any) {
       console.log(error);
-      toast.error(error.response.data.message || error.response.data.error);
     }
   };
 
@@ -126,7 +126,6 @@ const SuperAdminDashBoard: React.FC = () => {
       console.log(res.data.data);
     } catch (error: any) {
       console.log(error);
-      toast.error(error.response.data.message || error.response.data.error);
     }
   };
 
@@ -148,7 +147,7 @@ const SuperAdminDashBoard: React.FC = () => {
             buttonContent="Recharge"
             handleOpenModal={openModal}
             heading="Available Coin"
-            coin={(superAdminProfile && superAdminProfile.coin) || 'No Coin'}
+            coin={(superAdminProfile && superAdminProfile.coin) || '0'}
           />
           {isModalOpen && (
             <Modal
@@ -166,18 +165,18 @@ const SuperAdminDashBoard: React.FC = () => {
         <DashBoardCard
           Icon1={<FaUser size="40" className="dark:text-white" />}
           icon={<FaUser size="20" />}
-          coin={(recruiterList && recruiterList.length) || 'No Recruiter'}
+          coin={(recruiterList && recruiterList.length) || '0'}
           heading="Total Recruiter"
         />
 
         <DashBoardCard
-          coin={todaysSell ? todaysSell : 'No sell in Today'}
+          coin={todaysSell ? todaysSell : '0'}
           heading="Today's Sell"
           Icon1={<GiTwoCoins size="40" className="dark:text-white" />}
           icon={<GiTwoCoins size="20" />}
         />
         <DashBoardCard
-          coin={monthlySell ? monthlySell : 'no coin sell in this month'}
+          coin={monthlySell ? monthlySell : '0'}
           heading="Monthly Sells"
           Icon1={<GiTwoCoins size="40" className="dark:text-white" />}
           icon={<GiTwoCoins size="20" />}

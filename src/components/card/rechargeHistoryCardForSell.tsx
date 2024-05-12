@@ -1,9 +1,11 @@
 import axios from 'axios';
-import { FaBitcoin } from 'react-icons/fa';
+import { FaCopy } from 'react-icons/fa';
 import { baseUrl } from '../../utils/baseUrl';
 import { toast } from 'react-toastify';
 import { destructureDate } from './getTime';
 import { GiTwoCoins } from 'react-icons/gi';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { useCallback, useState } from 'react';
 export function RechargeHistoryCardForSell({
   id,
   name,
@@ -14,6 +16,11 @@ export function RechargeHistoryCardForSell({
   recruiterID,
   amount,
 }: any) {
+  const [copied, setCopied] = useState(false);
+  const onCopy = useCallback(() => {
+    setCopied(true);
+    toast.success('Copied');
+  }, []);
   const token = localStorage.getItem('token');
   const handleApprove = async () => {
     try {
@@ -75,10 +82,17 @@ export function RechargeHistoryCardForSell({
         <h5 className="mb-2 uppercase text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
           Amount: {(amount && amount.toFixed(2)) || 0}
         </h5>
+        <div className="flex gap-3 ">
+          <span className="mb-2 text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+            YOHOID : {YohoId}
+          </span>
+          <span className="flex justify-center items-center -mt-1 cursor-pointer">
+            <CopyToClipboard onCopy={onCopy} text={YohoId}>
+              <FaCopy className="text-blue-600" />
+            </CopyToClipboard>
+          </span>
+        </div>
 
-        <h5 className="mb-2 text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-          YOHOID : {YohoId}
-        </h5>
         <h5 className="mb-2 text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
           {time.day + '-' + time.month + '-' + time.year}
         </h5>
