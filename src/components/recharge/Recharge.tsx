@@ -34,7 +34,9 @@ const Recharge = ({ closeModal, id }: any) => {
       );
       toast.success(response.data.message);
       closeModal();
-      window.location.reload();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     } catch (error: any) {
       console.log(error);
       toast.error(error.response.data.error || error.response.data.message);

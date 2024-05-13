@@ -31,7 +31,16 @@ const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
         {/* <!-- ===== Content Area End ===== --> */}
       </div>
       {/* <!-- ===== Page Wrapper End ===== --> */}
-      <ToastContainer />
+      <div style={{ zIndex: 99999999999 }}>
+        <ToastContainer
+          toastClassName="toast-custom-style"
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          closeOnClick
+          pauseOnHover
+        />
+      </div>
     </div>
   );
 };

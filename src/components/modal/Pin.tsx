@@ -1,12 +1,38 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import OtpInput from 'react-otp-input';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import { baseUrl } from '../../utils/baseUrl';
 const Pin = ({ closeModal, confirmRecharge }: any) => {
   const [otp, setOtp] = useState('');
+  const token = localStorage.getItem('token');
+  const userProfileString = localStorage.getItem('userProfile');
+  const userProfile = userProfileString ? JSON.parse(userProfileString) : null;
+  const [superAdminProfile, setSuperAdminProfile] = useState<any>({});
+  const [validPin, setValidPin] = useState(true);
+  const getSuperAdminProfileDetails = async () => {
+    try {
+      const res = await axios.get(`${baseUrl}/superAdmin/${userProfile._id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `b ${token}`,
+        },
+      });
+      setSuperAdminProfile(res.data.data);
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.response.data.message || error.response.data.error);
+    }
+  };
+
+  useEffect(() => {
+    getSuperAdminProfileDetails();
+  }, []);
   const handleCheckPin = () => {
-    if (otp != '2508') {
-      toast.error('Wrong Pin');
-      closeModal();
+    if (superAdminProfile.pin !== +otp) {
+      //   toast.error('Wrong Pin');
+      setValidPin(false);
+      //   closeModal();
     } else {
       confirmRecharge();
     }
@@ -38,6 +64,11 @@ const Pin = ({ closeModal, confirmRecharge }: any) => {
           }}
           renderInput={(props) => <input {...props} />}
         />
+      </div>
+      <div className="flex justify-end mr-5">
+        {!validPin && (
+          <span className="text-red-800 text-xl font-normal">wrong pin</span>
+        )}
       </div>
 
       <div className="flex gap-4 items-center mt-6 space-x-4 flex-row-reverse">
