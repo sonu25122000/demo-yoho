@@ -6,6 +6,8 @@ import { destructureDate } from './getTime';
 import { GiTwoCoins } from 'react-icons/gi';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useCallback, useState } from 'react';
+import Modal from '../modal/ParentModal';
+import RejectRechargeRemark from '../modal/RejectRechargeRemark';
 export function RechargeHistoryCardForSell({
   id,
   name,
@@ -17,10 +19,19 @@ export function RechargeHistoryCardForSell({
   amount,
 }: any) {
   const [copied, setCopied] = useState(false);
+  const [remark, setRemark] = useState('');
   const onCopy = useCallback(() => {
     setCopied(true);
     toast.success('Copied');
   }, []);
+  const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const openModal1 = () => {
+    setIsModalOpen1(true);
+  };
+
+  const closeModal1 = () => {
+    setIsModalOpen1(false);
+  };
   const token = localStorage.getItem('token');
   const handleApprove = async () => {
     try {
@@ -48,7 +59,7 @@ export function RechargeHistoryCardForSell({
     try {
       const response = await axios.patch(
         `${baseUrl}/history/reject/${id}`,
-        { recruiterID },
+        { recruiterID, remark },
         {
           headers: {
             'Content-Type': 'application/json',
@@ -57,11 +68,13 @@ export function RechargeHistoryCardForSell({
         },
       );
       toast.success(response.data.message);
+      closeModal1();
       setTimeout(() => {
         window.location.reload();
       }, 1000);
     } catch (error: any) {
       console.log(error);
+      closeModal1();
       toast.error(error.response.data.error || error.response.data.message);
     }
   };
@@ -109,12 +122,27 @@ export function RechargeHistoryCardForSell({
             Approve
           </button>
           <button
-            onClick={handleReject}
+            onClick={openModal1}
             type="button"
             className="text-gray-900 bg-red-400  px-4 text-black focus:outline-none hover:bg-gray-100  focus:ring-gray-100 font-medium rounded-full text-sm py-2.5 me-2 mb-2 dark:bg-black-800 dark:text-white dark:border-black dark:hover:bg-black-700 dark:hover:border-black "
           >
             Reject
           </button>
+
+          {isModalOpen1 && (
+            <Modal
+              closeModal={closeModal1}
+              handleOpen={openModal1}
+              isModalOpen={isModalOpen1}
+            >
+              <RejectRechargeRemark
+                closeModal={closeModal1}
+                confirmReject={handleReject}
+                remark={remark}
+                setRemark={setRemark}
+              />
+            </Modal>
+          )}
         </div>
       </div>
     </div>

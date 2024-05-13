@@ -4,6 +4,9 @@ import { baseUrl } from '../../utils/baseUrl';
 import { toast } from 'react-toastify';
 import { destructureDate } from './getTime';
 import { GiTwoCoins } from 'react-icons/gi';
+import { useState } from 'react';
+import Modal from '../modal/ParentModal';
+import RejectRechargeRemark from '../modal/RejectRechargeRemark';
 export function WithDrawCard({
   id,
   name,
@@ -14,6 +17,16 @@ export function WithDrawCard({
   amount,
 }: any) {
   const token = localStorage.getItem('token');
+  const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const [remark, setRemark] = useState('');
+
+  const openModal1 = () => {
+    setIsModalOpen1(true);
+  };
+
+  const closeModal1 = () => {
+    setIsModalOpen1(false);
+  };
   const handleApprove = async () => {
     try {
       const response = await axios.patch(
@@ -40,7 +53,7 @@ export function WithDrawCard({
     try {
       const response = await axios.patch(
         `${baseUrl}/history/reject/${id}`,
-        { recruiterID },
+        { recruiterID, remark },
         {
           headers: {
             'Content-Type': 'application/json',
@@ -91,12 +104,26 @@ export function WithDrawCard({
             Approve
           </button>
           <button
-            onClick={handleReject}
+            onClick={openModal1}
             type="button"
             className="text-gray-900 bg-red-400  px-4 text-black focus:outline-none hover:bg-gray-100  focus:ring-gray-100 font-medium rounded-full text-sm py-2.5 me-2 mb-2 dark:bg-black-800 dark:text-white dark:border-black dark:hover:bg-black-700 dark:hover:border-black "
           >
             Reject
           </button>
+          {isModalOpen1 && (
+            <Modal
+              closeModal={closeModal1}
+              handleOpen={openModal1}
+              isModalOpen={isModalOpen1}
+            >
+              <RejectRechargeRemark
+                closeModal={closeModal1}
+                confirmReject={handleReject}
+                remark={remark}
+                setRemark={setRemark}
+              />
+            </Modal>
+          )}
         </div>
       </div>
     </div>
