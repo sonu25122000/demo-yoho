@@ -15,6 +15,9 @@ import { FaIndianRupeeSign } from 'react-icons/fa6';
 
 import { RechargeHistoryCardForSell } from '../../components/card/rechargeHistoryCardForSell';
 import { WithDrawCard } from '../../components/card/withdrawCommissionCard';
+import RechargeCard from '../../components/card/rechargeforbuytable';
+import RechargeRequestedSellCard from '../../components/card/RechargeRequestForsell';
+import WithDrawTable from '../../components/card/withdrawTable';
 
 const SuperAdminDashBoard: React.FC = () => {
   const token = localStorage.getItem('token');
@@ -182,8 +185,10 @@ const SuperAdminDashBoard: React.FC = () => {
           icon={<GiTwoCoins size="20" />}
         />
       </div>
-
       <PageHeader pageName="Recharge Requested for buy" />
+
+      <RechargeCard requestedRecharge={requestedRecharge} />
+      {/* <PageHeader pageName="Recharge Requested for buy" />
       <div className="grid-cols-1 grid md:grid-cols-3 gap-4">
         {requestedRecharge
           ? requestedRecharge.map((item: any) => {
@@ -205,9 +210,13 @@ const SuperAdminDashBoard: React.FC = () => {
               );
             })
           : 'abc'}
-      </div>
+      </div> */}
 
       <PageHeader pageName="Recharge Requested for sell" />
+      <RechargeRequestedSellCard
+        requestedRechargeSellType={requestedRechargeSellType}
+      />
+      {/* <PageHeader pageName="Recharge Requested for sell" />
       <div className="grid-cols-1 grid md:grid-cols-3 gap-4">
         {requestedRechargeSellType
           ? requestedRechargeSellType.map((item: any) => {
@@ -227,9 +236,10 @@ const SuperAdminDashBoard: React.FC = () => {
               );
             })
           : 'abc'}
-      </div>
-
+      </div> */}
       <PageHeader pageName="WithDraw Requested By Recruiter" />
+      <WithDrawTable withDraw={withDraw} />
+      {/* <PageHeader pageName="WithDraw Requested By Recruiter" />
       <div className="grid-cols-1 grid md:grid-cols-3 gap-4">
         {withDraw
           ? withDraw.map((item: any) => {
@@ -250,7 +260,7 @@ const SuperAdminDashBoard: React.FC = () => {
               );
             })
           : 'abc'}
-      </div>
+      </div> */}
     </DefaultLayout>
   );
 };
