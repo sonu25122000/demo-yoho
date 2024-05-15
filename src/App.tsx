@@ -9,6 +9,7 @@ import Tables from './pages/Tables';
 import PrivateRoute from './utils/privateRoute';
 import SignIn from './pages/Authentication/SignIn';
 import History from './pages/History';
+import { ChangePassword } from './pages/ChangePassword/changePassword';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -62,7 +63,7 @@ function App() {
           }
         />
         <Route path="/auth/sign-in" element={<SignIn />} />
-
+        <Route path="/change-password" element={<ChangePassword />} />
         <Route
           path="/recruiter"
           element={

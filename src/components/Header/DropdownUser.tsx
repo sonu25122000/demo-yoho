@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import UserOne from '../../images/user/user-01.png';
+import { RiLockPasswordFill } from 'react-icons/ri';
 
 const DropdownUser = () => {
   const navigate = useNavigate();
@@ -106,6 +107,15 @@ const DropdownUser = () => {
                 />
               </svg>
               Account Settings
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/change-password"
+              className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+            >
+              <RiLockPasswordFill size={'25'} />
+              Change Password
             </Link>
           </li>
         </ul>
